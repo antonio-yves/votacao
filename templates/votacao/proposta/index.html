@@ -1,0 +1,83 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Page Content -->
+    <div class="container">
+
+      <div class="row">
+
+        <!-- Post Content Column -->
+        <div class="col-lg-8">
+
+          <!-- Title -->
+          <h1 class="mt-4">{{ kwargs.name }}</h1>
+
+          <!-- Author -->
+          <p class="lead">
+            por {{ object.user.first_name }}
+          </p>
+
+          <hr>
+
+          <!-- Date/Time -->
+          <p> {{object.create}} </p>
+
+          <hr>
+
+          <!-- Post Content -->
+          <p class="lead">{{ object.description }}</p>
+
+          <hr>
+
+          <!-- Comments Form -->
+          <div class="card my-4">
+            <h5 class="card-header">Escreva um Comentário:</h5>
+            <div class="card-body">
+              <form method="post" action="">
+                {% csrf_token %}
+                {% if request.user.is_authenticated %}
+                <div class="form-group">
+                  <input type="text" name="user" hidden value="{{ request.user }}">
+                  <input type="text" name="lei" hidden value="{{ object.pk }}">
+                  <textarea class="form-control" rows="3" name="comment"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar</button>
+                {% else %}
+                <p>Realize <a href="{% url 'core:login' %}">login</a> para comentar</p>
+                {% endif %}
+              </form>
+            </div>
+          </div>
+
+          {% for comment in comentarios %}
+          <div class="media mb-4">
+            <img class="d-flex mr-3 rounded-circle" src="http://operationburnout.com/forums/public/style_images/v6/profile/default_thumb.png" alt="">
+            <div class="media-body">
+              <h5 class="mt-0">{{comment.user.first_name}}</h5>
+              {{comment.comment}}
+            </div>
+          </div>
+          {% endfor %}
+
+        </div>
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+          <!-- Side Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Sobre</h5>
+            <div class="card-body">
+              Com o Sistema de Votação os usuários podem cadastrar propostas de leis e deixarem as mesmas em votação durante 1 hora. Ao fim da votação os usuários poderão ver se a proposta foi aprovada ou não.
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- /.row -->
+
+    </div>
+    <!-- /.container -->
+
+{% endblock %}

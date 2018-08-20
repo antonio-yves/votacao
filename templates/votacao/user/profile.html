@@ -1,0 +1,53 @@
+{% extends '../base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-8">
+
+          <h1 class="my-4">{{object.first_name}} {{object.last_name}} <small>Perfil do Usuário</small></h1>
+
+          <a href="{% url 'votacao:add-proposta' %}"><button class="btn btn-primary"><i class="fas fa-plus"></i> Proposta</button></a>
+
+          <div style="margin-top: 15px;">
+          	<table class="table">
+          		<thead>
+          			<tr>
+          				<th scope="col">#</th>
+          				<th scope="col">Nome</th>
+          				<th scope="col">Ver mais</th>
+          			</tr>
+          		</thead>
+          		<tbody>
+          			{% for lei in leis %}
+          			<tr>
+          				<th scope="row">{{ forloop.counter }}</th>
+          				<td>{{lei.name}}</td>
+          				<td><a href="{% url 'votacao:proposta' lei.pk %}">Ver mais</a></td>
+          			</tr>
+          			{% endfor %}
+          		</tbody>
+          	</table>
+          </div>
+
+			
+		</div>
+
+		<div class="col-md-4">
+
+          <!-- Side Widget -->
+          <div class="card my-4">
+            <h5 class="card-header">Sobre</h5>
+            <div class="card-body">
+              Com o Sistema de Votação os usuários podem cadastrar propostas de leis e deixarem as mesmas em votação durante 1 hora. Ao fim da votação os usuários poderão ver se a proposta foi aprovada ou não.
+            </div>
+          </div>
+
+        </div>
+	</div>
+</div>
+
+
+
+{% endblock %}
